@@ -134,6 +134,25 @@ function send(req,res){
 			var result={"status":"400"};
 			res.send(result);
 		}else{
+			var accountSid = 'AC3ca589a5e6c284d7798192745aab7ee8'; // Your Account SID from www.twilio.com/console
+			var authToken = '2e10f6a976e68d87b8a246043b284544';   // Your Auth Token from www.twilio.com/console
+
+		//	var twilio = require('twilio');
+			var twilioLibrary = require('twilio');
+			var client = new twilioLibrary.Twilio(accountSid, authToken);
+
+			client.messages.create({
+			    body: 'Hello from Node',
+			    to: '+16692928628',  // Text this number
+			    from: '+16692258681' // From a valid Twilio number
+			}, function(err, message) {
+				if(!err){
+					console.log(message);
+				}else{
+					console.log(err);
+				}
+			    
+			});
 			res.send({"status":"200"});
 		}
 		

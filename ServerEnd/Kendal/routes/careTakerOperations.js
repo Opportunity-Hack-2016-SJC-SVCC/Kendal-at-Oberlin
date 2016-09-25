@@ -56,10 +56,39 @@ function nitesh(req,res){
 			}); 
 }
 	
+function deleteFromTable(req,res){
+	
+	res.header("Access-Control-Allow-Origin", "*");
+	var sqlquery="delete from documentpending where caretaker_email=";
+	sqlquery+= "'"+req.body.email+"'";
+	sqlquery+= "and documentName=";
+	sqlquery+= "'"+req.body.documentName+"'";
+	sqlquery+= ";";
+		
+	console.log(sqlquery);
+	
+	mysql.fetchData(sqlquery,function(err,rows){
+		var sqlquery1="select * from documentpending where caretaker_email=";
+		sqlquery1+= "'"+req.body.email+"'";
+		sqlquery1+= ";";
+			
+		mysql.fetchData(sqlquery1,function(err,rows){
+			if(rows.length > 0){
+				var result={"status":"200","rows":rows};
+				res.send(result);
+			}else{
+				var result={"status":"400"};
+				res.send(result);
+			}
+		});
+	});
+	
+	
+	
+}
 
 
-
-
+exports.deleteFromTable=deleteFromTable;
 exports.nitesh=nitesh;
 exports.careTakerHomePage=careTakerHomePage;
 exports.careTakerShowDocument=careTakerShowDocument;
